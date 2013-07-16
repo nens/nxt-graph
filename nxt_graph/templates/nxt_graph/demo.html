@@ -1,5 +1,39 @@
 <script type="text/javascript" src="{{ STATIC_URL }}vendor/d3js/d3.v3.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}nxt_graph/timeseries.js"></script>
+<script type="text/javascript" src="http://nvd3.org/nv.d3.js"></script>
+<!-- <script type="text/javascript" src="{{ STATIC_URL }}nxt_graph/timeseries.js"></script> -->
+
+{% block css %}
+<link href="http://nvd3.org/src/nv.d3.css" rel="stylesheet">
+{% endblock css%}
+
+<script>
+var draw = function (data){
+  console.log('hoi,', data)
+    nv.addGraph(function() {
+    var chart = nv.models.lineChart()
+                  .x(function(d) { return Date.parse(d[0]) })
+                  .y(function(d) { return d[1] })
+                  .clipEdge(true);
+
+    chart.xAxis
+        .tickFormat(function(d) {
+         return d3.time.format('%x')(new Date(d)) 
+       });
+
+    chart.yAxis
+        .tickFormat(d3.format(',.2f'));
+
+    d3.select('#d3-timeseries svg')
+      .datum(data)
+        .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+}
+
+</script>
 
 <style type="text/css">
 
@@ -7,40 +41,8 @@ svg {
   font-size: 10px;
 }
 
-.axis {
-  shape-rendering: crispEdges;
-}
-
-.axis path, .axis line {
-  fill: none;
-  stroke-width: .5px;
-}
-
-.x.axis path {
-  stroke: #000;
-}
-
-.x.axis line {
-  stroke: #fff;
-  stroke-opacity: .5;
-}
-
-.y.axis line {
-  stroke: #ddd;
-}
-
-path.line {
-  fill: none;
-  stroke: #000;
-  stroke-width: .5px;
-}
-
-rect.pane {
-  cursor: move;
-  fill: none;
-  pointer-events: all;
-}
-
     </style>	
 
-<div id="d3-timeseries">HALLO Iedereen..</div>
+<div id="d3-timeseries">
+  <svg height="500px"></svg>
+</div>

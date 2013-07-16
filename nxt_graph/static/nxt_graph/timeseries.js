@@ -99,11 +99,9 @@ function draw() {
   svg.select("g.y.axis").call(yAxis);
   svg.select("path.area").attr("d", area);
   svg.select("path.line").attr("d", line);
-  d3.select("#footer span").text("U.S. Commercial Flights, " + x.domain().map(format).join("-"));
 }
 
-function zoom(e) {
-  console.log(e)
+function zoom() {
   d3.event.transform(x); // TODO d3.behavior.zoom should support extents
   draw();
 }
