@@ -1,9 +1,17 @@
-<script type="text/javascript" src="{{ STATIC_URL }}vendor/d3js/d3.v3.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}vendor/nvd3/nv.d3.js"></script>
+<style type="text/css">
+.playground {
+  pointer-events: all;
+  background-color: gray;
+}
+</style>
 
-<script type="text/javascript" src="{{ STATIC_URL }}nxt_graph/profile.js"></script>
+<div class="playground">
+  <svg>
+  	<polygon points="200,10 250,190 160,210"
+  	style="fill:lime"/>
 
-<style type="text/css" src="{{ STATIC_URL }}vendor/nvd3/nv.d3.css"></style>
+	<circle cx="50" cy="50" r="40" stroke="black"
+  stroke-width="2" fill="red"/>
 
-
-<div class="nxt-profile"><svg style='height:400px' /></div>
+  </svg>
+</div>
