@@ -1,10 +1,59 @@
-<style type="text/css">
+<!--style type="text/css">
 .playground {
   pointer-events: all;
   background-color: gray;
 }
-</style>
+</style-->
 
+<script>
+
+d3.json('static_media/nxt_graph/stackedAreaData.json', function(data) {
+	console.log('data: ', data);
+}
+);
+
+var drawProfile = function (data){
+  console.log('hoi,', data);
+
+    nv.addGraph(function() {
+    var chart = nv.models.lineChart()
+                  .x(function(d) { return d[0] })
+                  .y(function(d) { return d[1] })
+                  .clipEdge(true);
+
+    // chart.xAxis
+    //     .tickFormat(function(d) {
+    //      return d3.time.format('%x')(new Date(d)) 
+    //    });
+    chart.xAxis
+        .tickFormat(d3.format(',.2f'));
+
+    chart.yAxis
+        .tickFormat(d3.format(',.2f'));
+
+    d3.select('#d3-profile svg')
+      .datum(data)
+        .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+}
+
+</script>
+
+<style type="text/css">
+
+svg {
+  font-size: 10px;
+}
+
+    </style>	
+
+<div id="d3-profile">
+  <svg height="500px"></svg>
+</div>
 <!--div class="playground">
   <svg>
   	<polygon points="200,10 250,190 160,210"
