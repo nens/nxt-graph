@@ -13,7 +13,7 @@ app
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
                 var getData = function(url, fn){
-                    this.busy = true;
+                    busy = true;
                     $.ajax({
                             url: url,
                             success: function(data) {
@@ -52,14 +52,20 @@ app
                             .transition().duration(500).call(chart);
 
                         nv.utils.windowResize(chart.update);
-                        this.busy = false;
+                        //console.log('busy? ', busy);
+                        busy = false;
                         return chart;
 
                     });  // nv.addGraph
                 };
 
                 scope.$watch('url', function (url) {
-                    if (url !== '') {
+                    //if ((url !== '') && (!busy)) {
+                    if (busy) {
+                        console.log('nxt-graph: i\'m still busy');
+                    }
+                    if ((url !== '') ) {
+                        console.log('Get ready for the graph update');
                         getData(url, addGraph);
                     }
                 });  // scope.watch
