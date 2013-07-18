@@ -3,6 +3,7 @@
 // create the directives as re-usable components
 app
     .directive('nxtTimeseries', function($http) {
+        var busy = false;
         return {
             restrict: 'E',
             replace: true,
@@ -12,6 +13,7 @@ app
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
                 var getData = function(url, fn){
+                    this.busy = true;
                     $.ajax({
                             url: url,
                             success: function(data) {
@@ -27,32 +29,31 @@ app
                 var addGraph = function(formatted) {
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
-                    console.log('formatted 2', formatted);
-                        
+                        //console.log('formatted 2', formatted);                    
 
-                            //console.log("dataaa", data, formatted);
-                            var chart = nv.models.lineChart()
-                                          .x(function(d) { return Date.parse(d[0]) })
-                                          .y(function(d) { return d[1] })
-                                          .clipEdge(true);
+                        //console.log("dataaa", data, formatted);
+                        var chart = nv.models.lineChart()
+                                      .x(function(d) { return Date.parse(d[0]) })
+                                      .y(function(d) { return d[1] })
+                                      .clipEdge(true);
 
-                            chart.xAxis
-                                .tickFormat(function(d) {
-                                 return d3.time.format('%x')(new Date(d)) 
-                               });
+                        chart.xAxis
+                            .tickFormat(function(d) {
+                             return d3.time.format('%x')(new Date(d)) 
+                           });
 
-                            chart.yAxis
-                                .tickFormat(d3.format(',.2f'));
+                        chart.yAxis
+                            .tickFormat(d3.format(',.2f'));
 
-                            console.log('element', $(element).attr('id'), element);
-                            // Make sure your context as an id or so...
-                            d3.select(element.context)
-                              .datum(formatted)
-                                .transition().duration(500).call(chart);
+                        //console.log('element', $(element).attr('id'), element);
+                        // Make sure your context as an id or so...
+                        d3.select(element.context)
+                          .datum(formatted)
+                            .transition().duration(500).call(chart);
 
-                            nv.utils.windowResize(chart.update);
-
-                            return chart;
+                        nv.utils.windowResize(chart.update);
+                        this.busy = false;
+                        return chart;
 
                     });  // nv.addGraph
                 };
