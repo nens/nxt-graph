@@ -75,6 +75,7 @@ app
 
 app
     .directive('nxtCrossSection', function($http) {
+        var busy = false;
         return {
             restrict: 'E',
             replace: true,
@@ -88,10 +89,13 @@ app
                             url: url,
                             success: function(data) {
                                 var formatted = [{
+                                  "key": "bathymetry", 
+                                  "values": data.bathymetry
+                                },{
                                   "key": "depth", 
                                   "values": data.depth
                                 }];
-                                console.log('formatted 1', formatted, data);
+                                //console.log('formatted 1', formatted, data);
                                 fn(formatted);
                             }
                     });  // $.ajax
@@ -99,36 +103,43 @@ app
                 var addGraph = function(formatted) {
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
-                    console.log('formatted 2', formatted);
+                        //console.log('formatted 2', formatted);
                         
 
-                            //console.log("dataaa", data, formatted);
-                            var chart = nv.models.lineChart()
-                                          .x(function(d) { return d[0] })
-                                          .y(function(d) { return d[1] })
-                                          .clipEdge(true);
+                        //console.log("dataaa", data, formatted);
+                        var chart = nv.models.stackedAreaChart()
+                        //var chart = nv.models.lineChart()
+                                      .x(function(d) { return d[0] })
+                                      .y(function(d) { return d[1] })
+                                      .clipEdge(true);
 
-                            chart.xAxis
-                                .tickFormat(d3.format(',.2f'));
+                        chart.xAxis
+                            .tickFormat(d3.format(',.2f'));
 
-                            chart.yAxis
-                                .tickFormat(d3.format(',.2f'));
+                        chart.yAxis
+                            .tickFormat(d3.format(',.2f'));
 
-                            console.log('element', $(element).attr('id'), element);
-                            // Make sure your context as an id or so...
-                            d3.select(element.context)
-                              .datum(formatted)
-                                .transition().duration(500).call(chart);
+                        chart.showControls(false);
+                        chart.yDomain([0, 3]);
 
-                            nv.utils.windowResize(chart.update);
+                        //console.log('element', $(element).attr('id'), element);
+                        // Make sure your context as an id or so...
+                        d3.select(element.context)
+                          .datum(formatted)
+                            .transition().duration(500).call(chart);
 
-                            return chart;
+                        nv.utils.windowResize(chart.update);
+                        busy = false;
+                        return chart;
 
                     });  // nv.addGraph
                 };
 
                 scope.$watch('url', function (url) {
+                    //if (busy) {return;}
                     if (url !== '') {
+                        console.log('updating profile graph...');
+                        busy = true;
                         getData(url, addGraph);
                     }
                 });  // scope.watch
