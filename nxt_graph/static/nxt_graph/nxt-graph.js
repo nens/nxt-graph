@@ -49,12 +49,14 @@ app
                                       .clipEdge(true);
 
                         chart.xAxis
+                            .axisLabel('Time (H:M:S)')
                             .tickFormat(function(d) {
                              return d3.time.format('%X')(new Date(d)) 
                            });
 
                         chart.yAxis
-                            .tickFormat(d3.format(',.2f'));
+                             .axisLabel('Depth (m)')
+                             .tickFormat(d3.format(',.2f'));
 
                         //console.log('element', $(element).attr('id'), element);
                         // Make sure your context as an id or so...
@@ -76,7 +78,7 @@ app
                         if (busy) {
                             // We don't have time for it now, but later you want
                             // the latest available graph.
-                            console.log("timeseries: busy!!"); 
+                            //console.log("timeseries: busy!!"); 
                             readyForNext = url;
                             //showalert("Skipped ", url);
                             return;
@@ -107,7 +109,7 @@ app
                             url: url,
                             success: function(data) {
                                 var formatted = [{
-                                  "key": "bathymetry", 
+                                  "key": "land", 
                                   "values": data.bathymetry
                                 },{
                                   "key": "depth", 
@@ -135,9 +137,11 @@ app
                                       .clipEdge(true);
 
                         chart.xAxis
+                            .axisLabel('Distance (km)')
                             .tickFormat(d3.format(',.2f'));
 
                         chart.yAxis
+                            .axisLabel('Depth (m)')
                             .tickFormat(d3.format(',.2f'));
 
                         chart.showControls(false);
