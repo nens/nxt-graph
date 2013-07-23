@@ -34,6 +34,11 @@ app
                                 setTimeout(function() {
                                     busy = false;
                                 }, 600);  // wait a while before accepting new
+                            },
+                            error: function (data) {
+                                var empty = [{"key": "timeseries",
+                                            "values": [[0, 0]]}];
+                                fn(empty);
                             }
                     });  // $.ajax
                 }
@@ -47,11 +52,21 @@ app
                                       .x(function(d) { return Date.parse(d[0]) })
                                       .y(function(d) { return d[1] })
                                       .clipEdge(true);
-
+                        var epoch = 0;
+                        try {
+                            // try to get the startdate.
+                            epoch = +Date.parse(formatted[0].values[0][0]);
+                        } catch(err) {
+                        }
+                        //console.log('epoch for this graph is ', epoch);
                         chart.xAxis
-                            .axisLabel('Time (H:M:S)')
+                            .axisLabel('Time (hours)')
                             .tickFormat(function(d) {
-                             return d3.time.format('%X')(new Date(d)) 
+                                //var hours = +(d- new Date("2012-01-01")) / 1000 / 60 / 60;
+                                //console.log('debug ', ((+d) - epoch));
+                                var hours = ((+d) - epoch)  / 1000 / 60 / 60;
+                             return Math.round(hours*10)/10;
+                             //return d3.time.format('%X')(new Date(d)) 
                            });
 
                         chart.yAxis
@@ -110,16 +125,23 @@ app
                             success: function(data) {
                                 var formatted = [{
                                   "key": "land", 
-                                  "values": data.bathymetry
+                                  "values": data.bathymetry,
+                                  "color": "#2C9331"
                                 },{
-                                  "key": "depth", 
-                                  "values": data.depth
+                                  "key": "water", 
+                                  "values": data.depth,
+                                  "color": "LightSkyBlue"
                                 }];
                                 //console.log('formatte 1', formatted, data);
                                 fn(formatted);
                                 setTimeout(function() {
                                     busy = false;
                                 }, 600);
+                            },
+                            error: function (data) {
+                                var empty = [{"key": "timeseries",
+                                            "values": [[0, 0]]}];
+                                fn(empty);
                             }
                     });  // $.ajax
                 }
