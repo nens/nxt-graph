@@ -160,6 +160,7 @@ app
                 };
 
                 scope.$watch('url', function (url) {
+                    //console.log('profile url update');
                     if (busy) {
                         // Only update if an old request is already finished
                         //console.log("profile: busy!!"); 
