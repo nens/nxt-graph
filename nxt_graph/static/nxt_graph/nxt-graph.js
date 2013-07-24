@@ -39,6 +39,9 @@ app
                                 var empty = [{"key": "timeseries",
                                             "values": [[0, 0]]}];
                                 fn(empty);
+                                setTimeout(function() {
+                                    busy = false;
+                                }, 600);  // wait a while before accepting new
                             }
                     });  // $.ajax
                 }
@@ -139,9 +142,19 @@ app
                                 }, 600);
                             },
                             error: function (data) {
-                                var empty = [{"key": "timeseries",
-                                            "values": [[0, 0]]}];
+                                var empty = [{
+                                    "key": "land",
+                                    "values": [[0, 0], [1/111, 0]],
+                                    "color": "#2C9331"
+                                },{
+                                  "key": "water", 
+                                  "values": [[0,0], [1/111, 0]],
+                                  "color": "LightSkyBlue"
+                                }];
                                 fn(empty);
+                                setTimeout(function() {
+                                    busy = false;
+                                }, 600);
                             }
                     });  // $.ajax
                 }

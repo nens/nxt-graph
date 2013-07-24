@@ -24,7 +24,8 @@ You must use AngularJS in order to use nxt-graph (get it from elsewhere). Also i
 Usage
 -----
 
-Make directives and modify the infourl from Angular. The nxt-timeseries and nxt-profile will automagically become fancy nv d3 graphs!
+Make directives and modify the infourl from Angular. The nxt-timeseries and nxt-profile will automagically become fancy nv d3 graphs! Even more: every time when the inner url is updated, the graph will refresh itself. This way you can get realtime moving graphs!
+
 
 Example::
 
