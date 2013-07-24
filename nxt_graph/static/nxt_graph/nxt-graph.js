@@ -144,11 +144,11 @@ app
                             error: function (data) {
                                 var empty = [{
                                     "key": "land",
-                                    "values": [[0, 0]],
+                                    "values": [[0, 0], [1/111, 0]],
                                     "color": "#2C9331"
                                 },{
                                   "key": "water", 
-                                  "values": [[0,0]],
+                                  "values": [[0,0], [1/111, 0]],
                                   "color": "LightSkyBlue"
                                 }];
                                 fn(empty);
