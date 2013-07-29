@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.1 (unreleased)
+0.1 (2013-07-29)
 ----------------
 
 - You can look at time series and cross sections, they will update every time when the url is updated.
