@@ -58,7 +58,7 @@ app
                         //console.log("dataaa", data, formatted);
                         var chart = nv.models.lineChart()
                                       .x(function(d) { return Date.parse(d[0]) })
-                                      .y(function(d) { return d[0] })
+                                      .y(function(d) { return d[1] })
                                       .clipEdge(true);
                         var epoch = 0;
                         try {
