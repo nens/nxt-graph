@@ -14,9 +14,13 @@ app
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
                 var getData = function(url, fn){
+                    console.log(url);
                     $.ajax({
                             url: url,
+                            type: 'GET',
+                            dataType: 'json',
                             success: function(data) {
+                                console.log('data!!!', data);
                                 var formatted = [{
                                             "key": "timeseries", 
                                             "values": data['timeseries']
@@ -36,6 +40,7 @@ app
                                 }, 600);  // wait a while before accepting new
                             },
                             error: function (data) {
+                                console.log('error!!!', data);
                                 var empty = [{"key": "timeseries",
                                             "values": [[0, 0]]}];
                                 fn(empty);
@@ -53,7 +58,7 @@ app
                         //console.log("dataaa", data, formatted);
                         var chart = nv.models.lineChart()
                                       .x(function(d) { return Date.parse(d[0]) })
-                                      .y(function(d) { return d[1] })
+                                      .y(function(d) { return d[0] })
                                       .clipEdge(true);
                         var epoch = 0;
                         try {
@@ -77,6 +82,108 @@ app
                              .tickFormat(d3.format(',.2f'));
 
                         //console.log('element', $(element).attr('id'), element);
+                        // Make sure your context as an id or so...
+                        d3.select(element.context)
+                          .datum(formatted)
+                            .transition().duration(500).call(chart);
+
+                        nv.utils.windowResize(chart.update);
+                        //console.log('busy? ', busy);
+                        return chart;
+
+                    });  // nv.addGraph
+                };
+
+                scope.$watch('url', function (url) {
+                    //if ((url !== '') && (!busy)) {
+                    if ((url !== '') ) {
+                        //console.log("time series whahaha", url);
+                        if (busy) {
+                            // We don't have time for it now, but later you want
+                            // the latest available graph.
+                            //console.log("timeseries: busy!!"); 
+                            readyForNext = url;
+                            //showalert("Skipped ", url);
+                            return;
+                        }
+                        // console.log('Get ready for the graph update');
+                        busy = true;
+                        //console.log('busy', busy);
+                        getData(url, addGraph);
+                    }
+                });  // scope.watch
+            }
+        }
+    });
+
+
+app
+    .directive('nxtCarstenTimeseries', function($http) {
+        var busy = false;
+        var readyForNext = null;
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                'url': '@'
+            },
+            template: '<svg></svg>',
+            link: function(scope, element, attrs) {
+                var getData = function(url, fn){
+                    console.log(url);
+                    $.ajax({
+                            url: url,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log('data!!!', data);
+                                var formatted = [{
+                                            "key": "timeseries", 
+                                            "values": data  //['timeseries']
+                                        }];
+                                console.log('formatted 1', formatted, data);
+                                fn(formatted);
+                                // TODO: possibly a user does not see the very
+                                // latest graph...
+
+                                // if (readyForNext !== null) {
+                                //     console.log("ReadyForNext!!");
+                                //     getData(readyForNext, addGraph);
+                                //     readyForNext = null;
+                                // } 
+                                setTimeout(function() {
+                                    busy = false;
+                                }, 600);  // wait a while before accepting new
+                            },
+                            error: function (data) {
+                                console.log('error!!!', data);
+                                var empty = [{"key": "timeseries",
+                                            "values": [[0, 0]]}];
+                                fn(empty);
+                                setTimeout(function() {
+                                    busy = false;
+                                }, 600);  // wait a while before accepting new
+                            }
+                    });  // $.ajax
+                }
+                var addGraph = function(formatted) {
+                    nv.addGraph(function() {
+                        var chart = nv.models.lineChart()
+                                      .x(function(d) { return Date.parse(d['date']) })
+                                      .y(function(d) { return d['value'] })
+                                      .clipEdge(true);
+
+                        chart.xAxis
+                            .axisLabel('Time (date)')
+                            .tickFormat(function(d) {
+
+                             return d3.time.format('%x')(new Date(d)) 
+                           });
+
+                        chart.yAxis
+                             .axisLabel('Value')
+                             .tickFormat(d3.format(',.2f'));
+
                         // Make sure your context as an id or so...
                         d3.select(element.context)
                           .datum(formatted)
