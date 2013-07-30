@@ -5,7 +5,9 @@ Changelog of nxt-graph
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added nxtCarstenTimeSeries.
+
+- Slightly changed nv.d3.css to prevent slash with leaflet.
 
 
 0.1 (2013-07-29)
