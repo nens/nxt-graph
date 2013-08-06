@@ -42,7 +42,7 @@ app
                             error: function (data) {
                                 console.log('error!!!', data);
                                 var empty = [{"key": "timeseries",
-                                            "values": [[0, 0]]}];
+                                            "values": [['1979-05-25 14:30', 0], ['1979-05-25 14:31', 0]]}];
                                 fn(empty);
                                 setTimeout(function() {
                                     busy = false;
