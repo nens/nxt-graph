@@ -68,18 +68,23 @@ app
                         }
                         //console.log('epoch for this graph is ', epoch);
                         chart.xAxis
-                            .axisLabel('Time (hours)')
+                            .axisLabel('Time (HH:MM)')
                             .tickFormat(function(d) {
                                 //var hours = +(d- new Date("2012-01-01")) / 1000 / 60 / 60;
                                 //console.log('debug ', ((+d) - epoch));
-                                var hours = ((+d) - epoch)  / 1000 / 60 / 60;
-                             return Math.round(hours*10)/10;
-                             //return d3.time.format('%X')(new Date(d)) 
+                                var minutes = ((+d) - epoch)  / 1000 / 60;
+                             //return Math.round(hours*10)/10;
+                                var minutes_mod = Math.floor(minutes%60);
+                                if (minutes_mod < 10) {minutes_mod = '0' + minutes_mod;}
+                             return Math.floor(minutes/60)+':'+minutes_mod;
+                             //return d3.time.format('%d %H:%M')(new Date(d)) 
                            });
 
                         chart.yAxis
                              .axisLabel('Depth (m)')
                              .tickFormat(d3.format(',.2f'));
+
+                        chart.showLegend(false);
 
                         //console.log('element', $(element).attr('id'), element);
                         // Make sure your context as an id or so...
@@ -287,7 +292,8 @@ app
                             .tickFormat(d3.format(',.2f'));
 
                         chart.showControls(false);
-                        chart.yDomain([0, 3]);
+                        chart.showLegend(false);
+                        //chart.yDomain([0, 3]);
 
                         //console.log('element', $(element).attr('id'), element);
                         // Make sure your context as an id or so...
