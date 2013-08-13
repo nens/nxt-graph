@@ -239,6 +239,10 @@ app
                             url: url,
                             success: function(data) {
                                 var formatted = [{
+                                  "key": "bias", 
+                                  "values": data.bias,
+                                  "color": "#ffffff"
+                                },{
                                   "key": "land", 
                                   "values": data.bathymetry,
                                   "color": "#2C9331"
@@ -255,6 +259,11 @@ app
                             },
                             error: function (data) {
                                 var empty = [{
+                                    "key": "bias",
+                                    "values": [[0, 1], [1/111, 1]],
+                                    "color": "#ffffff",
+                                    "opacity": "0.5"
+                                },{
                                     "key": "land",
                                     "values": [[0, 0], [1/111, 0]],
                                     "color": "#2C9331"
