@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.2 (unreleased)
+0.2 (2013-08-20)
 ----------------
 
 - Improvements in axis and layout.
