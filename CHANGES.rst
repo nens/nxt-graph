@@ -7,6 +7,8 @@ Changelog of nxt-graph
 
 - Changed axis label Time (HH:MM) -> Time.
 
+- Changed water/land to depth/elevation.
+
 
 0.2 (2013-08-20)
 ----------------

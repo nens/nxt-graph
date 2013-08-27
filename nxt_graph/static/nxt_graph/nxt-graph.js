@@ -243,11 +243,11 @@ app
                                   "values": data.bias,
                                   "color": "#ffffff"
                                 },{
-                                  "key": "land", 
+                                  "key": "elevation", 
                                   "values": data.bathymetry,
                                   "color": "#2C9331"
                                 },{
-                                  "key": "water", 
+                                  "key": "depth", 
                                   "values": data.depth,
                                   "color": "LightSkyBlue"
                                 }];
@@ -264,11 +264,11 @@ app
                                     "color": "#ffffff",
                                     "opacity": "0.5"
                                 },{
-                                    "key": "land",
+                                    "key": "elevation",
                                     "values": [[0, 0], [1/111, 0]],
                                     "color": "#2C9331"
                                 },{
-                                  "key": "water", 
+                                  "key": "depth", 
                                   "values": [[0,0], [1/111, 0]],
                                   "color": "LightSkyBlue"
                                 }];
@@ -293,11 +293,11 @@ app
                                       .clipEdge(true);
 
                         chart.xAxis
-                            .axisLabel('Distance (km)')
+                            .axisLabel('Distance')
                             .tickFormat(d3.format(',.2f'));
 
                         chart.yAxis
-                            .axisLabel('Depth (m)')
+                            .axisLabel('Depth')
                             .tickFormat(d3.format(',.2f'));
 
                         chart.showControls(false);
