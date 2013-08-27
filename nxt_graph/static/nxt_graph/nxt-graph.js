@@ -68,7 +68,7 @@ app
                         }
                         //console.log('epoch for this graph is ', epoch);
                         chart.xAxis
-                            .axisLabel('Time (HH:MM)')
+                            .axisLabel('Time')
                             .tickFormat(function(d) {
                                 //var hours = +(d- new Date("2012-01-01")) / 1000 / 60 / 60;
                                 //console.log('debug ', ((+d) - epoch));
