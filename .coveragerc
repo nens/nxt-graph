@@ -1,4 +1,9 @@
 [run]
 omit =
+    */.local/*
     */migrations/*
+    */test*
+    *buildout/eggs/*
     *settings.py
+    /usr/*
+    eggs/*
