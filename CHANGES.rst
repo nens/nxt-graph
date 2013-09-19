@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.3 (unreleased)
+0.3 (2013-09-19)
 ----------------
 
 - Changed axis label Time (HH:MM) -> Time.
