@@ -14,28 +14,28 @@ app
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
                 var getData = function(url, fn){
-                    console.log(url);
+                    //console.log(url);
                     $.ajax({
                             url: url,
                             type: 'GET',
                             dataType: 'json',
                             success: function(data) {
-                                console.log('data!!!', data);
+                                //console.log('data!!!', data);
                                 var formatted = [{
                                             "key": "timeseries", 
                                             "values": data['timeseries']
                                         }];
-                                console.log('formatted 1', formatted, data);
+                                //console.log('formatted 1', formatted, data);
                                 fn(formatted);
-                                // TODO: possibly a user does not see the very
-                                // latest graph...
 
-                                // if (readyForNext !== null) {
-                                //     console.log("ReadyForNext!!");
-                                //     getData(readyForNext, addGraph);
-                                //     readyForNext = null;
-                                // } 
                                 setTimeout(function() {
+                                    // possibly a user does not see the very
+                                    // latest graph...
+                                    if (readyForNext !== null) {
+                                        console.log("ReadyForNext!!");
+                                        getData(readyForNext, addGraph);
+                                        readyForNext = null;
+                                    } 
                                     busy = false;
                                 }, 600);  // wait a while before accepting new
                             },

@@ -5,7 +5,7 @@ Changelog of nxt-graph
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Enabled 'readyForNext': graphs are now always updated to the newest available version.
 
 
 0.3 (2013-09-19)
