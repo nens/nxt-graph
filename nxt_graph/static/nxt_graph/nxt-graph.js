@@ -22,25 +22,24 @@ app
                             success: function(data) {
                                 //console.log('data!!!', data);
                                 var formatted = [{
-                                            "key": "timeseries", 
+                                            "key": "timeseries",
                                             "values": data['timeseries']
                                         }];
-                                //console.log('formatted 1', formatted, data);
                                 fn(formatted);
 
                                 setTimeout(function() {
                                     // possibly a user does not see the very
                                     // latest graph...
                                     if (readyForNext !== null) {
-                                        console.log("ReadyForNext!!");
+//                                        console.log("ReadyForNext!!");
                                         getData(readyForNext, addGraph);
                                         readyForNext = null;
-                                    } 
+                                    }
                                     busy = false;
                                 }, 600);  // wait a while before accepting new
                             },
                             error: function (data) {
-                                console.log('error!!!', data);
+//                                console.log('error!!!', data);
                                 var empty = [{"key": "timeseries",
                                             "values": [['1979-05-25 14:30', 0], ['1979-05-25 14:31', 0]]}];
                                 fn(empty);
@@ -52,10 +51,6 @@ app
                 }
                 var addGraph = function(formatted) {
                     nv.addGraph(function() {
-                        //console.log('scope.url2 ', scope.url, '-', scope_url);
-                        //console.log('formatted 2', formatted);                    
-
-                        //console.log("dataaa", data, formatted);
                         var chart = nv.models.lineChart()
                                       .x(function(d) { return Date.parse(d[0]) })
                                       .y(function(d) { return d[1] })
@@ -66,7 +61,7 @@ app
                             epoch = +Date.parse(formatted[0].values[0][0]);
                         } catch(err) {
                         }
-                        //console.log('epoch for this graph is ', epoch);
+//                        console.log('epoch for this graph is ', epoch);
                         chart.xAxis
                             .axisLabel('Time')
                             .tickFormat(function(d) {
@@ -77,7 +72,7 @@ app
                                 var minutes_mod = Math.floor(minutes%60);
                                 if (minutes_mod < 10) {minutes_mod = '0' + minutes_mod;}
                              return Math.floor(minutes/60)+':'+minutes_mod;
-                             //return d3.time.format('%d %H:%M')(new Date(d)) 
+                             //return d3.time.format('%d %H:%M')(new Date(d))
                            });
 
                         chart.yAxis
@@ -100,19 +95,25 @@ app
                 };
 
                 scope.$watch('url', function (url) {
+//                    console.log('IN WATCH!!!');
                     //if ((url !== '') && (!busy)) {
                     if ((url !== '') ) {
-                        //console.log("time series whahaha", url);
+//                        console.log("time series whahaha", url);
                         if (busy) {
                             // We don't have time for it now, but later you want
                             // the latest available graph.
-                            //console.log("timeseries: busy!!"); 
+                            //console.log("timeseries: busy!!");
                             readyForNext = url;
                             //showalert("Skipped ", url);
                             return;
                         }
                         // console.log('Get ready for the graph update');
-                        busy = true;
+
+                        // NB: busy = true commented because it doesn't allow
+                        // for multiple graphs in the same popup. This is needed
+                        // for example for the graphs in the threedi orifice popup.
+                        // busy = true;
+
                         //console.log('busy', busy);
                         getData(url, addGraph);
                     }
@@ -143,7 +144,7 @@ app
                             success: function(data) {
                                 console.log('data!!!', data);
                                 var formatted = [{
-                                            "key": "timeseries", 
+                                            "key": "timeseries",
                                             "values": data  //['timeseries']
                                         }];
                                 console.log('formatted 1', formatted, data);
@@ -155,7 +156,7 @@ app
                                 //     console.log("ReadyForNext!!");
                                 //     getData(readyForNext, addGraph);
                                 //     readyForNext = null;
-                                // } 
+                                // }
                                 setTimeout(function() {
                                     busy = false;
                                 }, 600);  // wait a while before accepting new
@@ -182,7 +183,7 @@ app
                             .axisLabel('Time (date)')
                             .tickFormat(function(d) {
 
-                             return d3.time.format('%x')(new Date(d)) 
+                             return d3.time.format('%x')(new Date(d))
                            });
 
                         chart.yAxis
@@ -208,7 +209,7 @@ app
                         if (busy) {
                             // We don't have time for it now, but later you want
                             // the latest available graph.
-                            //console.log("timeseries: busy!!"); 
+                            //console.log("timeseries: busy!!");
                             readyForNext = url;
                             //showalert("Skipped ", url);
                             return;
@@ -239,15 +240,15 @@ app
                             url: url,
                             success: function(data) {
                                 var formatted = [{
-                                  "key": "bias", 
+                                  "key": "bias",
                                   "values": data.bias,
                                   "color": "#ffffff"
                                 },{
-                                  "key": "elevation", 
+                                  "key": "elevation",
                                   "values": data.bathymetry,
                                   "color": "#2C9331"
                                 },{
-                                  "key": "depth", 
+                                  "key": "depth",
                                   "values": data.depth,
                                   "color": "LightSkyBlue"
                                 }];
@@ -268,7 +269,7 @@ app
                                     "values": [[0, 0], [1/111, 0]],
                                     "color": "#2C9331"
                                 },{
-                                  "key": "depth", 
+                                  "key": "depth",
                                   "values": [[0,0], [1/111, 0]],
                                   "color": "LightSkyBlue"
                                 }];
@@ -283,7 +284,7 @@ app
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
                         //console.log('formatted 2', formatted);
-                        
+
                         //console.log("dataaa", data, formatted);
                         // 2 * pi * r / 360 = 111 km per degrees, approximately
                         var chart = nv.models.stackedAreaChart()
@@ -320,7 +321,7 @@ app
                     //console.log('profile url update');
                     if (busy) {
                         // Only update if an old request is already finished
-                        //console.log("profile: busy!!"); 
+                        //console.log("profile: busy!!");
                         return;
                     }
                     if (url !== '') {
