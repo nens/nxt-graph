@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.5 (unreleased)
+0.5 (2014-02-05)
 ----------------
 
 - Disabled 'busy = true': multiple graphs in one popup are now possible, because of this.
