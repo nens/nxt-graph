@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.6 (unreleased)
+0.6 (2014-02-06)
 ----------------
 
 - Bugfix and re-enabled busy=true.
