@@ -3,8 +3,6 @@
 // create the directives as re-usable components
 app
     .directive('nxtTimeseries', function($http) {
-        var busy = false;
-        var readyForNext = null;
         return {
             restrict: 'E',
             replace: true,
@@ -13,6 +11,8 @@ app
             },
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
+                var readyForNext = null;
+                var busy = false;
                 var getData = function(url, fn){
                     //console.log(url);
                     $.ajax({
@@ -112,7 +112,7 @@ app
                         // NB: busy = true commented because it doesn't allow
                         // for multiple graphs in the same popup. This is needed
                         // for example for the graphs in the threedi orifice popup.
-                        // busy = true;
+                        busy = true;
 
                         //console.log('busy', busy);
                         getData(url, addGraph);
