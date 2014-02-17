@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.7 (unreleased)
+0.7 (2014-02-17)
 ----------------
 
 - Added requestAnimationFrame. There is still a problem when requesting graphs repeatedly.
