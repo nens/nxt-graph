@@ -27,16 +27,24 @@ app
                                         }];
                                 fn(formatted);
 
-                                setTimeout(function() {
-                                    // possibly a user does not see the very
-                                    // latest graph...
-                                    if (readyForNext !== null) {
-//                                        console.log("ReadyForNext!!");
-                                        getData(readyForNext, addGraph);
-                                        readyForNext = null;
-                                    }
+                                console.log('readyForNext: ', readyForNext);
+                                if (readyForNext !== null) {
+                                    setTimeout(function() {
+                                        requestAnimationFrame(function() {
+                                            // possibly a user does not see the very
+                                            // latest graph...
+                                            if (readyForNext !== null) {
+                                                console.log("ReadyForNext!!");
+                                                var next = readyForNext;
+                                                readyForNext = null;
+                                                getData(next, addGraph);
+                                            }
+                                            busy = false;
+                                        });
+                                    }, 1000);  // wait a while before accepting new
+                                } else {
                                     busy = false;
-                                }, 600);  // wait a while before accepting new
+                                }
                             },
                             error: function (data) {
 //                                console.log('error!!!', data);
@@ -44,8 +52,10 @@ app
                                             "values": [['1979-05-25 14:30', 0], ['1979-05-25 14:31', 0]]}];
                                 fn(empty);
                                 setTimeout(function() {
-                                    busy = false;
-                                }, 600);  // wait a while before accepting new
+                                    requestAnimationFrame(function() {
+                                        busy = false;
+                                    });
+                                }, 1000);  // wait a while before accepting new
                             }
                     });  // $.ajax
                 }
@@ -158,7 +168,9 @@ app
                                 //     readyForNext = null;
                                 // }
                                 setTimeout(function() {
-                                    busy = false;
+                                    requestAnimationFrame(function() {
+                                        busy = false;
+                                    });
                                 }, 600);  // wait a while before accepting new
                             },
                             error: function (data) {
@@ -167,7 +179,9 @@ app
                                             "values": [[0, 0]]}];
                                 fn(empty);
                                 setTimeout(function() {
-                                    busy = false;
+                                    requestAnimationFrame(function() {
+                                        busy = false;
+                                    });
                                 }, 600);  // wait a while before accepting new
                             }
                     });  // $.ajax
@@ -255,7 +269,9 @@ app
                                 //console.log('formatte 1', formatted, data);
                                 fn(formatted);
                                 setTimeout(function() {
-                                    busy = false;
+                                    requestAnimationFrame(function() {
+                                        busy = false;
+                                    });
                                 }, 600);
                             },
                             error: function (data) {
@@ -275,7 +291,9 @@ app
                                 }];
                                 fn(empty);
                                 setTimeout(function() {
-                                    busy = false;
+                                    requestAnimationFrame(function() {
+                                        busy = false;
+                                    });
                                 }, 600);
                             }
                     });  // $.ajax
