@@ -254,12 +254,16 @@ app
                             url: url,
                             success: function(data) {
                                 var formatted = [{
-                                  "key": "bias",
-                                  "values": data.bias,
+                                  "key": "offset",
+                                  "values": data.offset,
                                   "color": "#ffffff"
                                 },{
+                                  "key": "groundwater_delta",
+                                  "values": data.groundwater_delta,
+                                  "color": "#2D8265"
+                                },{
                                   "key": "elevation",
-                                  "values": data.bathymetry,
+                                  "values": data.bathymetry_delta,
                                   "color": "#2C9331"
                                 },{
                                   "key": "depth",
