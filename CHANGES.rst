@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.8 (unreleased)
+0.8 (2014-03-12)
 ----------------
 
 - Changed input for nxt crosssection: added ground water and renamed fields.
