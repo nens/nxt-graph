@@ -5,7 +5,7 @@ Changelog of nxt-graph
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Changed tooltip display.
 
 
 0.8 (2014-03-12)

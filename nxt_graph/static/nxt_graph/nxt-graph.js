@@ -7,7 +7,9 @@ app
             restrict: 'E',
             replace: true,
             scope: {
-                'url': '@'
+                'url': '@',
+                'title': '@',
+                'unit': '@'
             },
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
@@ -64,7 +66,15 @@ app
                         var chart = nv.models.lineChart()
                                       .x(function(d) { return Date.parse(d[0]) })
                                       .y(function(d) { return d[1] })
-                                      .clipEdge(true);
+                                      .clipEdge(true)
+                                      .tooltipContent(function(key, y, e, graph) {
+                                        var header = (scope.title != undefined) ? scope.title : key;
+                                        if ((scope.unit != undefined) && (scope.unit != '') && (scope.unit != null) ) {
+                                            header = header + ' - ' + scope.unit;
+                                        }
+                                        return '<h3 class="graph-header">' + header + ' </h3>' +
+                                               '<p>' +  e + '</p>'
+                                    });
                         var epoch = 0;
                         try {
                             // try to get the startdate.
