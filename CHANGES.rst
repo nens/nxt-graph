@@ -5,7 +5,9 @@ Changelog of nxt-graph
 0.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Changed tooltip for profile.
+
+- Removed carsten timeseries.
 
 
 0.9 (2014-03-13)

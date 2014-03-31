@@ -144,118 +144,14 @@ app
 
 
 app
-    .directive('nxtCarstenTimeseries', function($http) {
-        var busy = false;
-        var readyForNext = null;
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                'url': '@'
-            },
-            template: '<svg></svg>',
-            link: function(scope, element, attrs) {
-                var getData = function(url, fn){
-                    console.log(url);
-                    $.ajax({
-                            url: url,
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log('data!!!', data);
-                                var formatted = [{
-                                            "key": "timeseries",
-                                            "values": data  //['timeseries']
-                                        }];
-                                console.log('formatted 1', formatted, data);
-                                fn(formatted);
-                                // TODO: possibly a user does not see the very
-                                // latest graph...
-
-                                // if (readyForNext !== null) {
-                                //     console.log("ReadyForNext!!");
-                                //     getData(readyForNext, addGraph);
-                                //     readyForNext = null;
-                                // }
-                                setTimeout(function() {
-                                    requestAnimationFrame(function() {
-                                        busy = false;
-                                    });
-                                }, 600);  // wait a while before accepting new
-                            },
-                            error: function (data) {
-                                console.log('error!!!', data);
-                                var empty = [{"key": "timeseries",
-                                            "values": [[0, 0]]}];
-                                fn(empty);
-                                setTimeout(function() {
-                                    requestAnimationFrame(function() {
-                                        busy = false;
-                                    });
-                                }, 600);  // wait a while before accepting new
-                            }
-                    });  // $.ajax
-                }
-                var addGraph = function(formatted) {
-                    nv.addGraph(function() {
-                        var chart = nv.models.lineChart()
-                                      .x(function(d) { return Date.parse(d['date']) })
-                                      .y(function(d) { return d['value'] })
-                                      .clipEdge(true);
-
-                        chart.xAxis
-                            .axisLabel('Time (date)')
-                            .tickFormat(function(d) {
-
-                             return d3.time.format('%x')(new Date(d))
-                           });
-
-                        chart.yAxis
-                             .axisLabel('Value')
-                             .tickFormat(d3.format(',.2f'));
-
-                        // Make sure your context as an id or so...
-                        d3.select(element.context)
-                          .datum(formatted)
-                            .transition().duration(500).call(chart);
-
-                        nv.utils.windowResize(chart.update);
-                        //console.log('busy? ', busy);
-                        return chart;
-
-                    });  // nv.addGraph
-                };
-
-                scope.$watch('url', function (url) {
-                    //if ((url !== '') && (!busy)) {
-                    if ((url !== '') ) {
-                        //console.log("time series whahaha", url);
-                        if (busy) {
-                            // We don't have time for it now, but later you want
-                            // the latest available graph.
-                            //console.log("timeseries: busy!!");
-                            readyForNext = url;
-                            //showalert("Skipped ", url);
-                            return;
-                        }
-                        // console.log('Get ready for the graph update');
-                        busy = true;
-                        //console.log('busy', busy);
-                        getData(url, addGraph);
-                    }
-                });  // scope.watch
-            }
-        }
-    });
-
-app
     .directive('nxtCrossSection', function($http) {
         var busy = false;
         return {
             restrict: 'E',
             replace: true,
             scope: {
-                'url': '@'
+                'url': '@',
+                'unit': '@'
             },
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
@@ -323,7 +219,16 @@ app
                         //var chart = nv.models.lineChart()
                                       .x(function(d) { return 111*d[0] })
                                       .y(function(d) { return d[1] })
-                                      .clipEdge(true);
+                                      .clipEdge(true)
+                                      .tooltipContent(function(key, y, e, graph) {
+                                        var header = (scope.title != undefined) ? scope.title : key;
+                                        if ((scope.unit != undefined) && (scope.unit != '') && (scope.unit != null) ) {
+                                            header = header + ' - ' + scope.unit;
+                                        }
+                                        var unit_x = 'km';
+                                        return '<h3 class="graph-header">' + header + ' </h3>' +
+                                               '<p>' + e + ' at ' + y + unit_x + ' </p>';
+                                    });
 
                         chart.xAxis
                             .axisLabel('Distance')
