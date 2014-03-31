@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.10 (unreleased)
+0.10 (2014-03-31)
 -----------------
 
 - Changed tooltip for profile.
