@@ -234,9 +234,14 @@ app
                             .axisLabel('Distance')
                             .tickFormat(d3.format(',.2f'));
 
+                        var yScale = d3.scale.linear()
+                                    .domain([-5,5])
+                                    .range([100,5]);
+
                         chart.yAxis
                             .axisLabel('Depth')
-                            .tickFormat(d3.format(',.2f'));
+                            .tickFormat(d3.format(',.2f'))
+                            .scale(yScale);
 
                         chart.showControls(false);
                         chart.showLegend(false);
