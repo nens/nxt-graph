@@ -234,18 +234,27 @@ app
                             .axisLabel('Distance')
                             .tickFormat(d3.format(',.2f'));
 
-                        var yScale = d3.scale.linear()
-                                    .domain([-5,5])
-                                    .range([100,5]);
-
                         chart.yAxis
                             .axisLabel('Depth')
-                            .tickFormat(d3.format(',.2f'))
-                            .scale(yScale);
+                            .tickFormat(d3.format(',.2f'));
+
+
+                        var min = d3.min(formatted[0].values, function(d) {return d[1];});
+
+                        var max1 = d3.max(formatted[1].values, function(d) {return d[1];});
+                        var max2 = d3.max(formatted[2].values, function(d) {return d[1];});
+                        var max3 = d3.max(formatted[3].values, function(d) {return d[1];});
+
+                        // Not the exact max elevation
+                        var maxElevationPlus = min+max1+max2+max3;
+
+                        // chart.yDomain([d3.min(formatted[0], function (d) { return d.values; }), 0]);
+                        chart.yDomain([min, maxElevationPlus]);
+                        //chart.yDomain([minv, 0]);
+
 
                         chart.showControls(false);
                         chart.showLegend(false);
-                        //chart.yDomain([0, 3]);
 
                         //console.log('element', $(element).attr('id'), element);
                         // Make sure your context as an id or so...
