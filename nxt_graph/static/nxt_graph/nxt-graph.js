@@ -249,8 +249,10 @@ app
                         var maxElevationPlus = min+max1+max2+max3;
 
                         // chart.yDomain([d3.min(formatted[0], function (d) { return d.values; }), 0]);
-                        chart.yDomain([min, maxElevationPlus]);
                         //chart.yDomain([minv, 0]);
+
+                        // TODO: doesn't rescale correctly when negative 2D is applied
+                        chart.yDomain([min, maxElevationPlus]);
 
 
                         chart.showControls(false);
