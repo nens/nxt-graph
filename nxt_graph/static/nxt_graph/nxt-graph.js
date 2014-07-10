@@ -216,6 +216,7 @@ app
                         //console.log("dataaa", data, formatted);
                         // 2 * pi * r / 360 = 111 km per degrees, approximately
                         var chart = nv.models.stackedAreaChart()
+                        .height(310).width(380)
                         //var chart = nv.models.lineChart()
                                       .x(function(d) { return 111*d[0] })
                                       .y(function(d) { return d[1] })
@@ -239,21 +240,41 @@ app
                             .tickFormat(d3.format(',.2f'));
 
 
-                        var min = d3.min(formatted[0].values, function(d) {return d[1];});
+                        var minVal = d3.min(formatted[0].values, function(d) {return d[1];});
 
-                        var max1 = d3.max(formatted[1].values, function(d) {return d[1];});
-                        var max2 = d3.max(formatted[2].values, function(d) {return d[1];});
-                        var max3 = d3.max(formatted[3].values, function(d) {return d[1];});
+                        //Try stacked.y0????
 
-                        // Not the exact max elevation
-                        var maxElevationPlus = min+max1+max2+max3;
+                        // Maximum heights
+                        // TODO: performance????  Calculate server side instead?
+                        var sumArray = new Array(formatted[0].values.length);
+                        for (var i=0; i<formatted[0].values.length; i++) {
+                            sumArray[i] = (minVal + 
+                                formatted[1].values[i][1] +
+                                formatted[2].values[i][1] +
+                                formatted[3].values[i][1]);
+                        }
+                        var finetuneFactor = 0.2;
+                        var maxElevationPlus = Math.abs(finetuneFactor * (d3.max(sumArray)-minVal)) + d3.max(sumArray);
 
-                        // chart.yDomain([d3.min(formatted[0], function (d) { return d.values; }), 0]);
-                        //chart.yDomain([minv, 0]);
+                        // TODO: doesn't rescale correctly when negative 2D is applied??
+                        // TODO: BUG: when you click on the graph, it doesn't show 
+                        // individual profiles correctly anymore
 
-                        // TODO: doesn't rescale correctly when negative 2D is applied
-                        chart.yDomain([min, maxElevationPlus]);
 
+                        var noChartSelected = function() {
+                            var cstate = chart.state();
+                            if (cstate.disabled === undefined) {
+                                return true;
+                            }
+                            if (cstate.disabled.indexOf(true) === -1) {
+                                return true;
+                            }
+                            return false;
+                        };
+
+                        if (noChartSelected()) {
+                            chart.yDomain([minVal, maxElevationPlus]);
+                        }
 
                         chart.showControls(false);
                         chart.showLegend(false);
