@@ -272,7 +272,7 @@ app
                         };
 
                         if (noChartSelected()) {
-                            // chart.yDomain([minVal, maxElevationPlus]);
+                            chart.yDomain([minVal, maxElevationPlus]);
                         }
 
                         chart.showControls(false);
