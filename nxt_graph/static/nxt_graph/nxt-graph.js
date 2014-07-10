@@ -238,6 +238,7 @@ app
                         chart.yAxis
                             .axisLabel('Depth')
                             .tickFormat(d3.format(',.2f'));
+                            // .tickFormat(function(d){return d-5});
 
 
                         var minVal = d3.min(formatted[0].values, function(d) {return d[1];});
@@ -259,8 +260,6 @@ app
                         // TODO: doesn't rescale correctly when negative 2D is applied??
                         // TODO: BUG: when you click on the graph, it doesn't show 
                         // individual profiles correctly anymore
-
-
                         var noChartSelected = function() {
                             var cstate = chart.state();
                             if (cstate.disabled === undefined) {
@@ -273,7 +272,7 @@ app
                         };
 
                         if (noChartSelected()) {
-                            chart.yDomain([minVal, maxElevationPlus]);
+                            // chart.yDomain([minVal, maxElevationPlus]);
                         }
 
                         chart.showControls(false);
