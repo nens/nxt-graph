@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.11 (unreleased)
+0.11 (2014-07-14)
 -----------------
 
 - Better y scaling for profiles.
