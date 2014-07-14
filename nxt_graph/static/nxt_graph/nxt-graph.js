@@ -243,6 +243,7 @@ app
                         console.log(Object.keys(chart));
 
                         if (summary !== undefined) {
+                            // Get summary data from threedi-wms?
                             var minVal = summary.minimum;
                             var maxVal = summary.maximum;
                             var marginVal = summary.margin;
