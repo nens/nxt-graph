@@ -177,7 +177,7 @@ app
                                   "color": "LightSkyBlue"
                                 }];
                                 //console.log('formatte 1', formatted, data);
-                                fn(formatted);
+                                fn(formatted, data.summary);
                                 setTimeout(function() {
                                     requestAnimationFrame(function() {
                                         busy = false;
@@ -208,7 +208,7 @@ app
                             }
                     });  // $.ajax
                 }
-                var addGraph = function(formatted) {
+                var addGraph = function(formatted, summary) {
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
                         //console.log('formatted 2', formatted);
@@ -216,6 +216,7 @@ app
                         //console.log("dataaa", data, formatted);
                         // 2 * pi * r / 360 = 111 km per degrees, approximately
                         var chart = nv.models.stackedAreaChart()
+                        .height(310).width(380)
                         //var chart = nv.models.lineChart()
                                       .x(function(d) { return 111*d[0] })
                                       .y(function(d) { return d[1] })
@@ -237,10 +238,57 @@ app
                         chart.yAxis
                             .axisLabel('Depth')
                             .tickFormat(d3.format(',.2f'));
+                            // .tickFormat(function(d){return d-5});
+
+                        console.log(Object.keys(chart));
+
+                        if (summary !== undefined) {
+                            // Get summary data from threedi-wms?
+                            var minVal = summary.minimum;
+                            var maxVal = summary.maximum;
+                            var marginVal = summary.margin;
+                        } else {
+                            console.log('Please update threedi-wms for a better experience...')
+                            // Old threedi-wms...
+                            var minVal = d3.min(formatted[0].values, function(d) {return d[1];});
+
+                            //Try stacked.y0????
+
+                            // Maximum heights
+                            var sumArray = new Array(formatted[0].values.length);
+                            for (var i=0; i<formatted[0].values.length; i++) {
+                                sumArray[i] = (minVal + 
+                                    formatted[1].values[i][1] +
+                                    formatted[2].values[i][1] +
+                                    formatted[3].values[i][1]);
+                            }
+                            var maxVal = d3.max(sumArray)
+                            var marginVal = 0.1 * (maxVal - minVal);
+                        }
+
+                        chart.yDomain([minVal, maxVal + marginVal]);
+
+                        // TODO: disable click handler?
+                        // TODO: doesn't rescale correctly when negative 2D is applied??
+                        // TODO: BUG: when you click on the graph, it doesn't show 
+                        // individual profiles correctly anymore
+                        // var noChartSelected = function() {
+                        //     var cstate = chart.state();
+                        //     if (cstate.disabled === undefined) {
+                        //         return true;
+                        //     }
+                        //     if (cstate.disabled.indexOf(true) === -1) {
+                        //         return true;
+                        //     }
+                        //     return false;
+                        // };
+
+                        // if (noChartSelected()) {
+                        //     chart.yDomain([minVal, maxVal + marginVal]);
+                        // }
 
                         chart.showControls(false);
                         chart.showLegend(false);
-                        //chart.yDomain([0, 3]);
 
                         //console.log('element', $(element).attr('id'), element);
                         // Make sure your context as an id or so...
