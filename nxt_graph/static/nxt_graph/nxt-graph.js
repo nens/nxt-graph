@@ -177,7 +177,7 @@ app
                                   "color": "LightSkyBlue"
                                 }];
                                 //console.log('formatte 1', formatted, data);
-                                fn(formatted);
+                                fn(formatted, data.summary);
                                 setTimeout(function() {
                                     requestAnimationFrame(function() {
                                         busy = false;
@@ -208,7 +208,7 @@ app
                             }
                     });  // $.ajax
                 }
-                var addGraph = function(formatted) {
+                var addGraph = function(formatted, summary) {
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
                         //console.log('formatted 2', formatted);
@@ -240,40 +240,51 @@ app
                             .tickFormat(d3.format(',.2f'));
                             // .tickFormat(function(d){return d-5});
 
+                        console.log(Object.keys(chart));
 
-                        var minVal = d3.min(formatted[0].values, function(d) {return d[1];});
+                        if (summary !== undefined) {
+                            var minVal = summary.minimum;
+                            var maxVal = summary.maximum;
+                            var marginVal = summary.margin;
+                        } else {
+                            console.log('Please update threedi-wms for a better experience...')
+                            // Old threedi-wms...
+                            var minVal = d3.min(formatted[0].values, function(d) {return d[1];});
 
-                        //Try stacked.y0????
+                            //Try stacked.y0????
 
-                        // Maximum heights
-                        // TODO: performance????  Calculate server side instead?
-                        var sumArray = new Array(formatted[0].values.length);
-                        for (var i=0; i<formatted[0].values.length; i++) {
-                            sumArray[i] = (minVal + 
-                                formatted[1].values[i][1] +
-                                formatted[2].values[i][1] +
-                                formatted[3].values[i][1]);
+                            // Maximum heights
+                            var sumArray = new Array(formatted[0].values.length);
+                            for (var i=0; i<formatted[0].values.length; i++) {
+                                sumArray[i] = (minVal + 
+                                    formatted[1].values[i][1] +
+                                    formatted[2].values[i][1] +
+                                    formatted[3].values[i][1]);
+                            }
+                            var maxVal = d3.max(sumArray)
+                            var marginVal = 0.1 * (maxVal - minVal);
                         }
-                        var finetuneFactor = 0.2;
-                        var maxElevationPlus = Math.abs(finetuneFactor * (d3.max(sumArray)-minVal)) + d3.max(sumArray);
 
+                        chart.yDomain([minVal, maxVal + marginVal]);
+
+                        // TODO: disable click handler?
                         // TODO: doesn't rescale correctly when negative 2D is applied??
                         // TODO: BUG: when you click on the graph, it doesn't show 
                         // individual profiles correctly anymore
-                        var noChartSelected = function() {
-                            var cstate = chart.state();
-                            if (cstate.disabled === undefined) {
-                                return true;
-                            }
-                            if (cstate.disabled.indexOf(true) === -1) {
-                                return true;
-                            }
-                            return false;
-                        };
+                        // var noChartSelected = function() {
+                        //     var cstate = chart.state();
+                        //     if (cstate.disabled === undefined) {
+                        //         return true;
+                        //     }
+                        //     if (cstate.disabled.indexOf(true) === -1) {
+                        //         return true;
+                        //     }
+                        //     return false;
+                        // };
 
-                        if (noChartSelected()) {
-                            chart.yDomain([minVal, maxElevationPlus]);
-                        }
+                        // if (noChartSelected()) {
+                        //     chart.yDomain([minVal, maxVal + marginVal]);
+                        // }
 
                         chart.showControls(false);
                         chart.showLegend(false);
