@@ -5,7 +5,7 @@ Changelog of nxt-graph
 0.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Better y scaling for profiles.
 
 
 0.10 (2014-03-31)
