@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.12 (unreleased)
+0.12 (2014-10-07)
 -----------------
 
 - Fixed default profile in case of server errors.
