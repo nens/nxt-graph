@@ -186,9 +186,14 @@ app
                             },
                             error: function (data) {
                                 var empty = [{
-                                    "key": "bias",
-                                    "values": [[0, 1], [1/111, 1]],
+                                    "key": "offset",
+                                    "values": [[0, 0], [1/111, 0]],
                                     "color": "#ffffff",
+                                    "opacity": "0.5"
+                                },{
+                                    "key": "groundwater_delta",
+                                    "values": [[0, 0], [1/111, 0]],
+                                    "color": "#2D8265",
                                     "opacity": "0.5"
                                 },{
                                     "key": "elevation",
@@ -240,8 +245,6 @@ app
                             .tickFormat(d3.format(',.2f'));
                             // .tickFormat(function(d){return d-5});
 
-                        console.log(Object.keys(chart));
-
                         if (summary !== undefined) {
                             // Get summary data from threedi-wms?
                             var minVal = summary.minimum;
@@ -262,7 +265,7 @@ app
                                     formatted[2].values[i][1] +
                                     formatted[3].values[i][1]);
                             }
-                            var maxVal = d3.max(sumArray)
+                            var maxVal = d3.max(sumArray);
                             var marginVal = 0.1 * (maxVal - minVal);
                         }
 
