@@ -62,7 +62,7 @@ app
                     });  // $.ajax
                 }
                 var addGraph = function(formatted) {
-                    nv.addGraph(function() {
+                    var result = nv.addGraph(function() {
                         var chart = nv.models.lineChart()
                                       .x(function(d) { return Date.parse(d[0]) })
                                       .y(function(d) { return d[1] })
@@ -112,6 +112,8 @@ app
                         return chart;
 
                     });  // nv.addGraph
+                    current_chart = result;
+                    return result;
                 };
 
                 scope.$watch('url', function (url) {
@@ -136,6 +138,7 @@ app
 
                         //console.log('busy', busy);
                         getData(url, addGraph);
+
                     }
                 });  // scope.watch
             }
@@ -155,6 +158,8 @@ app
             },
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
+                scope.current_chart = null;
+                scope.paths_to_be_deleted = null;
                 var getData = function(url, fn){
                     $.ajax({
                             url: url,
@@ -177,7 +182,19 @@ app
                                   "color": "LightSkyBlue"
                                 }];
                                 //console.log('formatte 1', formatted, data);
+                                // new graph and contents
                                 fn(formatted, data.summary);
+
+                                // remove stuff so memory clears up a bit.
+                                if (scope.paths_to_be_deleted !== null) {
+                                    for (o in scope.paths_to_be_deleted.remove()) {
+                                        o = null;
+                                    };
+
+
+                                    scope.paths_to_be_deleted = null;
+                                }
+
                                 setTimeout(function() {
                                     requestAnimationFrame(function() {
                                         busy = false;
@@ -217,6 +234,7 @@ app
                     nv.addGraph(function() {
                         //console.log('scope.url2 ', scope.url, '-', scope_url);
                         //console.log('formatted 2', formatted);
+
 
                         //console.log("dataaa", data, formatted);
                         // 2 * pi * r / 360 = 111 km per degrees, approximately
@@ -297,12 +315,24 @@ app
                         // Make sure your context as an id or so...
                         d3.select(element.context)
                           .datum(formatted)
-                            .transition().duration(500).call(chart);
+                            .transition().duration(100).call(chart);
 
                         nv.utils.windowResize(chart.update);
+
+                        scope.current_chart = chart;
                         return chart;
 
                     });  // nv.addGraph
+
+                    // // remove stuff so memory clears up a bit.
+                    // if (scope.paths_to_be_deleted !== null) {
+                    //     for (o in scope.paths_to_be_deleted.remove()) {
+                    //         o = null;
+                    //     };
+                    //     scope.paths_to_be_deleted = null;
+                    // }
+
+
                 };
 
                 scope.$watch('url', function (url) {
@@ -315,9 +345,24 @@ app
                     if (url !== '') {
                         //console.log('updating profile graph...');
                         busy = true;
+                        
+                        if (scope.current_chart !== null) {
+                            // the paths are deleted later so visually we have less of a glitch
+                            scope.paths_to_be_deleted = d3.selectAll('g.nv-areaWrap path');
+                            // Still experimental, these are other options we may have to use.
+                            // d3.selectAll('circle').remove();
+                            // d3.selectAll('path').remove();
+                            // d3.selectAll('svg').remove();
+                            scope.current_chart = null;
+
+                            window.nv.charts = {};
+                            window.nv.graphs = [];
+                            window.nv.logs = {};
+                            window.onresize = null;
+                        }
+
                         getData(url, addGraph);
                     }
-                    //setTimeout(function(){busy = false;}, 5000);
                 });  // scope.watch
             }
         }

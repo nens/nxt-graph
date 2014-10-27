@@ -4009,18 +4009,18 @@ nv.models.indentedTree = function() {
           .on('dblclick', function(d,i) {
             dispatch.legendDblclick(d,i);
           });
-      seriesEnter.append('circle')
-          .style('stroke-width', 2)
-          .attr('r', 5);
+      // seriesEnter.append('circle')
+      //     .style('stroke-width', 2)
+      //     .attr('r', 5);
       seriesEnter.append('text')
           .attr('text-anchor', 'start')
           .attr('dy', '.32em')
           .attr('dx', '8');
       series.classed('disabled', function(d) { return d.disabled });
       series.exit().remove();
-      series.select('circle')
-          .style('fill', function(d,i) { return d.color || color(d,i)})
-          .style('stroke', function(d,i) { return d.color || color(d, i) });
+      // series.select('circle')
+      //     .style('fill', function(d,i) { return d.color || color(d,i)})
+      //     .style('stroke', function(d,i) { return d.color || color(d, i) });
       series.select('text').text(getKey);
 
 
@@ -10059,8 +10059,8 @@ nv.models.scatter = function() {
 
             var pointClips = wrap.select('#nv-points-clip-' + id).selectAll('circle')
                 .data(vertices);
-            pointClips.enter().append('circle')
-                .attr('r', clipRadius);
+            //pointClips.enter().append('circle')
+            //    .attr('r', clipRadius);
             pointClips.exit().remove();
             pointClips
                 .attr('cx', function(d) { return d[0] })
@@ -10233,26 +10233,26 @@ nv.models.scatter = function() {
 
       if (onlyCircles) {
 
-        var points = groups.selectAll('circle.nv-point')
-            .data(function(d) { return d.values }, pointKey);
-        points.enter().append('circle')
-            .attr('cx', function(d,i) { return x0(getX(d,i)) })
-            .attr('cy', function(d,i) { return y0(getY(d,i)) })
-            .attr('r', function(d,i) { return Math.sqrt(z(getSize(d,i))/Math.PI) });
-        points.exit().remove();
+        // var points = groups.selectAll('circle.nv-point')
+        //     .data(function(d) { return d.values }, pointKey);
+        // points.enter().append('circle')
+        //     .attr('cx', function(d,i) { return x0(getX(d,i)) })
+        //     .attr('cy', function(d,i) { return y0(getY(d,i)) })
+        //     .attr('r', function(d,i) { return Math.sqrt(z(getSize(d,i))/Math.PI) });
+        // points.exit().remove();
         groups.exit().selectAll('path.nv-point').transition()
             .attr('cx', function(d,i) { return x(getX(d,i)) })
             .attr('cy', function(d,i) { return y(getY(d,i)) })
             .remove();
-        points.each(function(d,i) {
-          d3.select(this)
-            .classed('nv-point', true)
-            .classed('nv-point-' + i, true);
-        });
-        points.transition()
-            .attr('cx', function(d,i) { return x(getX(d,i)) })
-            .attr('cy', function(d,i) { return y(getY(d,i)) })
-            .attr('r', function(d,i) { return Math.sqrt(z(getSize(d,i))/Math.PI) });
+        // points.each(function(d,i) {
+        //   d3.select(this)
+        //     .classed('nv-point', true)
+        //     .classed('nv-point-' + i, true);
+        // });
+        // points.transition()
+        //     .attr('cx', function(d,i) { return x(getX(d,i)) })
+        //     .attr('cy', function(d,i) { return y(getY(d,i)) })
+        //     .attr('r', function(d,i) { return Math.sqrt(z(getSize(d,i))/Math.PI) });
 
       } else {
 
@@ -11832,7 +11832,7 @@ nv.models.sparkline = function() {
                   currentPoint = pointIndex(yValues.length - 1);
               return [minPoint, maxPoint, currentPoint].filter(function (d) {return d != null;});
           });
-      points.enter().append('circle');
+      //points.enter().append('circle');
       points.exit().remove();
       points
           .attr('cx', function(d,i) { return x(getX(d,d.pointIndex)) })
