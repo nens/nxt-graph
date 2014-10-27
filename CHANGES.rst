@@ -2,7 +2,7 @@ Changelog of nxt-graph
 ===================================================
 
 
-0.13 (unreleased)
+0.13 (2014-10-27)
 -----------------
 
 - Remove objects from dom to prevent memory leak, as well as not adding circles
