@@ -108,28 +108,47 @@ app
                             .transition().duration(500).call(chart);
 
                         nv.utils.windowResize(chart.update);
-                        //console.log('busy? ', busy);
+                        scope.current_chart = chart;
                         return chart;
 
                     });  // nv.addGraph
-                    current_chart = result;
                     return result;
                 };
 
+                var set_null_on_selection = function(selection) {
+                    for (o in selection.remove()) {
+                        o = null;
+                    };
+                }
+
                 scope.$watch('url', function (url) {
-//                    console.log('IN WATCH!!!');
-                    //if ((url !== '') && (!busy)) {
                     if ((url !== '') ) {
-//                        console.log("time series whahaha", url);
                         if (busy) {
                             // We don't have time for it now, but later you want
                             // the latest available graph.
-                            //console.log("timeseries: busy!!");
                             readyForNext = url;
-                            //showalert("Skipped ", url);
                             return;
                         }
-                        // console.log('Get ready for the graph update');
+                        if (scope.current_chart !== null) {
+                            // uncomment this to use slightly less memory, but the line
+                            // graph will flicker on update
+/*                            set_null_on_selection(d3.selectAll('svg g.nv-pointpaths path'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-pointpaths'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-group'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-groups'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-wrap'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-scatterWrap'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-linesWrap'));
+                            set_null_on_selection(d3.selectAll('svg g.nv-axis'));
+                            set_null_on_selection(d3.selectAll('svg g.nvd3'));
+*/
+                            scope.current_chart = null;
+
+                            window.nv.charts = {};
+                            window.nv.graphs = [];
+                            window.nv.logs = {};
+                            window.onresize = null;
+                        }
 
                         // NB: busy = true commented because it doesn't allow
                         // for multiple graphs in the same popup. This is needed
@@ -159,7 +178,7 @@ app
             template: '<svg></svg>',
             link: function(scope, element, attrs) {
                 scope.current_chart = null;
-                scope.paths_to_be_deleted = null;
+                scope.to_be_deleted = null;
                 var getData = function(url, fn){
                     $.ajax({
                             url: url,
@@ -184,16 +203,6 @@ app
                                 //console.log('formatte 1', formatted, data);
                                 // new graph and contents
                                 fn(formatted, data.summary);
-
-                                // remove stuff so memory clears up a bit.
-                                if (scope.paths_to_be_deleted !== null) {
-                                    for (o in scope.paths_to_be_deleted.remove()) {
-                                        o = null;
-                                    };
-
-
-                                    scope.paths_to_be_deleted = null;
-                                }
 
                                 setTimeout(function() {
                                     requestAnimationFrame(function() {
@@ -278,7 +287,7 @@ app
                             // Maximum heights
                             var sumArray = new Array(formatted[0].values.length);
                             for (var i=0; i<formatted[0].values.length; i++) {
-                                sumArray[i] = (minVal + 
+                                sumArray[i] = (minVal +
                                     formatted[1].values[i][1] +
                                     formatted[2].values[i][1] +
                                     formatted[3].values[i][1]);
@@ -291,7 +300,7 @@ app
 
                         // TODO: disable click handler?
                         // TODO: doesn't rescale correctly when negative 2D is applied??
-                        // TODO: BUG: when you click on the graph, it doesn't show 
+                        // TODO: BUG: when you click on the graph, it doesn't show
                         // individual profiles correctly anymore
                         // var noChartSelected = function() {
                         //     var cstate = chart.state();
@@ -318,22 +327,18 @@ app
                             .transition().duration(100).call(chart);
 
                         nv.utils.windowResize(chart.update);
-
                         scope.current_chart = chart;
                         return chart;
 
                     });  // nv.addGraph
 
-                    // // remove stuff so memory clears up a bit.
-                    // if (scope.paths_to_be_deleted !== null) {
-                    //     for (o in scope.paths_to_be_deleted.remove()) {
-                    //         o = null;
-                    //     };
-                    //     scope.paths_to_be_deleted = null;
-                    // }
-
-
                 };
+
+                var set_null_on_selection = function(selection) {
+                    for (o in selection.remove()) {
+                        o = null;
+                    };
+                }
 
                 scope.$watch('url', function (url) {
                     //console.log('profile url update');
@@ -342,24 +347,36 @@ app
                         //console.log("profile: busy!!");
                         return;
                     }
+                    if (scope.current_chart !== null) {
+                        // Still experimental, these are other options we may have to use.
+                        // d3.selectAll('circle').remove();
+                        // d3.selectAll('path').remove();
+                        // d3.selectAll('svg').remove();
+                        // remove stuff so memory clears up a bit.
+                        // set_null_on_selection(d3.selectAll('svg g'));
+                        // set_null_on_selection(d3.selectAll('svg path'));
+
+                        // remove elements down up to prevent detached elements
+                        set_null_on_selection(d3.selectAll('svg g.nv-areaWrap path'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-areaWrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-axis'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-stackedWrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-scatterWrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-legendWrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-controlWrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nv-wrap'));
+                        set_null_on_selection(d3.selectAll('svg g.nvd3'));
+
+                        scope.current_chart = null;
+
+                        window.nv.charts = {};
+                        window.nv.graphs = [];
+                        window.nv.logs = {};
+                        window.onresize = null;
+                    }
                     if (url !== '') {
                         //console.log('updating profile graph...');
                         busy = true;
-                        
-                        if (scope.current_chart !== null) {
-                            // the paths are deleted later so visually we have less of a glitch
-                            scope.paths_to_be_deleted = d3.selectAll('g.nv-areaWrap path');
-                            // Still experimental, these are other options we may have to use.
-                            // d3.selectAll('circle').remove();
-                            // d3.selectAll('path').remove();
-                            // d3.selectAll('svg').remove();
-                            scope.current_chart = null;
-
-                            window.nv.charts = {};
-                            window.nv.graphs = [];
-                            window.nv.logs = {};
-                            window.onresize = null;
-                        }
 
                         getData(url, addGraph);
                     }

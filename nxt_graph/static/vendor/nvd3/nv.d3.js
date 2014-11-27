@@ -356,7 +356,7 @@ nv.utils.pjax = function(links, content) {
 }
 
 /* For situations where we want to approximate the width in pixels for an SVG:text element.
-Most common instance is when the element is in a display:none; container. 
+Most common instance is when the element is in a display:none; container.
 Forumla is : text.length * font-size * constant_factor
 */
 nv.utils.calcApproxTextWidth = function (svgTextElem) {
@@ -364,7 +364,7 @@ nv.utils.calcApproxTextWidth = function (svgTextElem) {
         var fontSize = parseInt(svgTextElem.style("font-size").replace("px",""));
         var textLength = svgTextElem.text().length;
 
-        return textLength * fontSize * 0.5; 
+        return textLength * fontSize * 0.5;
     }
     return 0;
 };
@@ -623,7 +623,7 @@ nv.models.axis = function() {
               if (scale(d) < scale.range()[1] + 10 || scale(d) > scale.range()[0] - 10) { // 10 is assuming text height is 16... if d is 0, leave it!
                 if (d > 1e-10 || d < -1e-10) // accounts for minor floating point errors... though could be problematic if the scale is EXTREMELY SMALL
                   d3.select(this).attr('opacity', 0);
-                
+
                 d3.select(this).select('text').attr('opacity', 0); // Don't remove the ZERO line!!
               }
             });
@@ -972,14 +972,14 @@ nv.models.bullet = function() {
           .attr('width', w0)
           .attr('height', availableHeight)
           .attr('x', reverse ? x0 : 0)
-          .on('mouseover', function(d,i) { 
+          .on('mouseover', function(d,i) {
               dispatch.elementMouseover({
                 value: d,
                 label: (i <= 0) ? 'Maximum' : (i > 1) ? 'Minimum' : 'Mean', //TODO: make these labels a variable
                 pos: [x1(d), availableHeight/2]
               })
           })
-          .on('mouseout', function(d,i) { 
+          .on('mouseout', function(d,i) {
               dispatch.elementMouseout({
                 value: d,
                 label: (i <= 0) ? 'Minimum' : (i >=1) ? 'Maximum' : 'Mean' //TODO: make these labels a variable
@@ -1003,14 +1003,14 @@ nv.models.bullet = function() {
           .attr('height', availableHeight / 3)
           .attr('x', reverse ? x0 : 0)
           .attr('y', availableHeight / 3)
-          .on('mouseover', function(d) { 
+          .on('mouseover', function(d) {
               dispatch.elementMouseover({
                 value: d,
                 label: 'Current', //TODO: make these labels a variable
                 pos: [x1(d), availableHeight/2]
               })
           })
-          .on('mouseout', function(d) { 
+          .on('mouseout', function(d) {
               dispatch.elementMouseout({
                 value: d,
                 label: 'Current' //TODO: make these labels a variable
@@ -1917,7 +1917,7 @@ nv.models.cumulativeLineChart = function() {
         updateZero();
       });
 
-      controls.dispatch.on('legendClick', function(d,i) { 
+      controls.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
         rescaleY = !d.disabled;
 
@@ -1929,7 +1929,7 @@ nv.models.cumulativeLineChart = function() {
       });
 
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -1952,7 +1952,7 @@ nv.models.cumulativeLineChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -2293,7 +2293,7 @@ nv.models.discreteBar = function() {
 
       var barsEnter = bars.enter().append('g')
           .attr('transform', function(d,i,j) {
-              return 'translate(' + (x(getX(d,i)) + x.rangeBand() * .05 ) + ', ' + y(0) + ')' 
+              return 'translate(' + (x(getX(d,i)) + x.rangeBand() * .05 ) + ', ' + y(0) + ')'
           })
           .on('mouseover', function(d,i) { //TODO: figure out why j works above, but not here
             d3.select(this).classed('hover', true);
@@ -3454,7 +3454,7 @@ nv.models.historicalBarChart = function() {
       // Event Handling/Dispatching (in chart's scope)
       //------------------------------------------------------------
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -3476,7 +3476,7 @@ nv.models.historicalBarChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -3791,28 +3791,28 @@ nv.models.indentedTree = function() {
 
       node
         .order()
-        .on('click', function(d) { 
+        .on('click', function(d) {
           dispatch.elementClick({
             row: this, //TODO: decide whether or not this should be consistent with scatter/line events or should be an html link (a href)
             data: d,
             pos: [d.x, d.y]
           });
         })
-        .on('dblclick', function(d) { 
+        .on('dblclick', function(d) {
           dispatch.elementDblclick({
             row: this,
             data: d,
             pos: [d.x, d.y]
           });
         })
-        .on('mouseover', function(d) { 
+        .on('mouseover', function(d) {
           dispatch.elementMouseover({
             row: this,
             data: d,
             pos: [d.x, d.y]
           });
         })
-        .on('mouseout', function(d) { 
+        .on('mouseout', function(d) {
           dispatch.elementMouseout({
             row: this,
             data: d,
@@ -4032,7 +4032,7 @@ nv.models.indentedTree = function() {
         var seriesWidths = [];
         series.each(function(d,i) {
               var legendText = d3.select(this).select('text');
-              var svgComputedTextLength = legendText.node().getComputedTextLength() 
+              var svgComputedTextLength = legendText.node().getComputedTextLength()
                                          || nv.utils.calcApproxTextWidth(legendText);
               seriesWidths.push(svgComputedTextLength + 28); // 28 is ~ the width of the circle plus some padding
             });
@@ -4193,7 +4193,7 @@ nv.models.line = function() {
     .size(16) // default size
     .sizeDomain([16,256]) //set to speed up calculation, needs to be unset if there is a custom size accessor
     ;
-    
+
   //============================================================
 
 
@@ -4680,7 +4680,7 @@ nv.models.lineChart = function() {
       // Event Handling/Dispatching (in chart's scope)
       //------------------------------------------------------------
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -4703,7 +4703,7 @@ nv.models.lineChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -5136,7 +5136,7 @@ nv.models.linePlusBarChart = function() {
       // Event Handling/Dispatching (in chart's scope)
       //------------------------------------------------------------
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -5158,7 +5158,7 @@ nv.models.linePlusBarChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -6052,7 +6052,7 @@ nv.models.linePlusBarWithFocusChart = function() {
         });
 
       x   .range([0, availableWidth]);
-      
+
       x2  .domain(d3.extent(d3.merge(series1.concat(series2)), function(d) { return d.x } ))
           .range([0, availableWidth]);
 
@@ -6068,7 +6068,7 @@ nv.models.linePlusBarWithFocusChart = function() {
       var g = wrap.select('g');
 
       gEnter.append('g').attr('class', 'nv-legendWrap');
-      
+
       var focusEnter = gEnter.append('g').attr('class', 'nv-focus');
       focusEnter.append('g').attr('class', 'nv-x nv-axis');
       focusEnter.append('g').attr('class', 'nv-y1 nv-axis');
@@ -6135,13 +6135,13 @@ nv.models.linePlusBarWithFocusChart = function() {
         .color(data.map(function(d,i) {
           return d.color || color(d, i);
         }).filter(function(d,i) { return !data[i].disabled && !data[i].bar }));
-        
+
       var bars2Wrap = g.select('.nv-context .nv-barsWrap')
           .datum(dataBars.length ? dataBars : [{values:[]}]);
 
       var lines2Wrap = g.select('.nv-context .nv-linesWrap')
           .datum(!dataLines[0].disabled ? dataLines : [{values:[]}]);
-          
+
       g.select('.nv-context')
           .attr('transform', 'translate(0,' + ( availableHeight1 + margin.bottom + margin2.top) + ')')
 
@@ -6209,10 +6209,10 @@ nv.models.linePlusBarWithFocusChart = function() {
       g.select('.nv-context .nv-y1.nv-axis')
           .style('opacity', dataBars.length ? 1 : 0)
           .attr('transform', 'translate(0,' + x2.range()[0] + ')');
-          
+
       d3.transition(g.select('.nv-context .nv-y1.nv-axis'))
           .call(y3Axis);
-          
+
 
       y4Axis
         .scale(y4)
@@ -6225,14 +6225,14 @@ nv.models.linePlusBarWithFocusChart = function() {
 
       d3.transition(g.select('.nv-context .nv-y2.nv-axis'))
           .call(y4Axis);
-          
+
       //------------------------------------------------------------
 
       //============================================================
       // Event Handling/Dispatching (in chart's scope)
       //------------------------------------------------------------
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -6303,7 +6303,7 @@ nv.models.linePlusBarWithFocusChart = function() {
 
         //------------------------------------------------------------
         // Prepare Main (Focus) Bars and Lines
-        
+
         bars
         .width(availableWidth)
         .height(availableHeight1)
@@ -6331,7 +6331,7 @@ nv.models.linePlusBarWithFocusChart = function() {
                   }
                 })
             );
-        
+
         var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
             .datum(dataLines[0].disabled ? [{values:[]}] :
               dataLines
@@ -6344,10 +6344,10 @@ nv.models.linePlusBarWithFocusChart = function() {
                   }
                 })
              );
-                 
+
         //------------------------------------------------------------
-        
-        
+
+
         //------------------------------------------------------------
         // Update Main (Focus) X Axis
 
@@ -6356,31 +6356,31 @@ nv.models.linePlusBarWithFocusChart = function() {
         } else {
             x = lines.xScale();
         }
-        
+
         xAxis
         .scale(x)
         .ticks( availableWidth / 100 )
         .tickSize(-availableHeight1, 0);
 
         xAxis.domain([Math.ceil(extent[0]), Math.floor(extent[1])]);
-        
+
         d3.transition(g.select('.nv-x.nv-axis'))
           .call(xAxis);
         //------------------------------------------------------------
-        
-        
+
+
         //------------------------------------------------------------
         // Update Main (Focus) Bars and Lines
 
         d3.transition(focusBarsWrap).call(bars);
         d3.transition(focusLinesWrap).call(lines);
-        
+
         //------------------------------------------------------------
-        
-          
+
+
         //------------------------------------------------------------
         // Setup and Update Main (Focus) Y Axes
-        
+
         g.select('.nv-focus .nv-x.nv-axis')
           .attr('transform', 'translate(0,' + y1.range()[0] + ')');
 
@@ -6638,7 +6638,7 @@ nv.models.multiBar = function() {
               f.y1 = negBase;
               negBase = negBase - f.size;
             } else
-            { 
+            {
               f.y1 = f.size + posBase;
               posBase = posBase + f.size;
             }
@@ -6816,7 +6816,7 @@ nv.models.multiBar = function() {
 
       if (stacked)
             bars.transition()
-          
+
             .delay(function(d,i) { return i * delay / data[0].values.length })
             .attr('y', function(d,i) {
 
@@ -7237,7 +7237,7 @@ nv.models.multiBarChart = function() {
           // Issue #140
           xTicks
             .selectAll("text")
-            .attr('transform', function(d,i,j) { 
+            .attr('transform', function(d,i,j) {
                 return  getTranslate(0, (j % 2 == 0 ? staggerUp : staggerDown));
               });
 
@@ -7262,7 +7262,7 @@ nv.models.multiBarChart = function() {
           .selectAll('text')
           .attr('transform', 'rotate(' + rotateLabels + ' 0,0)')
           .attr('text-anchor', rotateLabels > 0 ? 'start' : 'end');
-      
+
       g.select('.nv-x.nv-axis').selectAll('g.nv-axisMaxMin text')
           .style('opacity', 1);
 
@@ -7304,7 +7304,7 @@ nv.models.multiBarChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -7486,7 +7486,7 @@ nv.models.multiBarChart = function() {
     defaultState = _;
     return chart;
   };
-  
+
   chart.noData = function(_) {
     if (!arguments.length) return noData;
     noData = _;
@@ -7578,7 +7578,7 @@ nv.models.multiBarHorizontal = function() {
               f.y1 = negBase - f.size;
               negBase = negBase - f.size;
             } else
-            { 
+            {
               f.y1 = posBase;
               posBase = posBase + f.size;
             }
@@ -7765,7 +7765,7 @@ nv.models.multiBarHorizontal = function() {
           //.delay(function(d,i) { return i * delay / data[0].values.length })
             .attr('transform', function(d,i) {
               //TODO: stacked must be all positive or all negative, not both?
-              return 'translate(' + 
+              return 'translate(' +
               (getY(d,i) < 0 ? y(getY(d,i)) : y(0))
               + ',' +
               (d.series * x.rangeBand() / data.length
@@ -8192,7 +8192,7 @@ nv.models.multiBarHorizontalChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -8374,7 +8374,7 @@ nv.models.multiChart = function() {
 
   var margin = {top: 30, right: 20, bottom: 50, left: 60},
       color = d3.scale.category20().range(),
-      width = null, 
+      width = null,
       height = null,
       showLegend = true,
       tooltips = true,
@@ -8475,7 +8475,7 @@ nv.models.multiChart = function() {
         legend.width( availableWidth / 2 );
 
         g.select('.legendWrap')
-            .datum(data.map(function(series) { 
+            .datum(data.map(function(series) {
               series.originalKey = series.originalKey === undefined ? series.key : series.originalKey;
               series.key = series.originalKey + (series.yAxis == 1 ? '' : ' (right axis)');
               return series;
@@ -8583,7 +8583,7 @@ nv.models.multiChart = function() {
 
       if(dataLines1.length){d3.transition(lines1Wrap).call(lines1);}
       if(dataLines2.length){d3.transition(lines2Wrap).call(lines2);}
-      
+
 
 
       xAxis
@@ -8614,7 +8614,7 @@ nv.models.multiChart = function() {
           .style('opacity', series2.length ? 1 : 0)
           .attr('transform', 'translate(' + x.range()[1] + ',0)');
 
-      legend.dispatch.on('legendClick', function(d,i) { 
+      legend.dispatch.on('legendClick', function(d,i) {
         d.disabled = !d.disabled;
 
         if (!data.filter(function(d) { return !d.disabled }).length) {
@@ -9321,7 +9321,7 @@ nv.models.pie = function() {
         if (showLabels) {
           // This does the normal label
           var labelsArc = d3.svg.arc().innerRadius(0);
-          
+
           if (pieLabelsOutside){ labelsArc = arc; }
 
           if (donutLabelsOutside) { labelsArc = d3.svg.arc().outerRadius(arc.outerRadius()); }
@@ -9478,7 +9478,7 @@ nv.models.pie = function() {
     getY = d3.functor(_);
     return chart;
   };
-  
+
   chart.description = function(_) {
     if (!arguments.length) return getDescription;
     getDescription = _;
@@ -9490,7 +9490,7 @@ nv.models.pie = function() {
     showLabels = _;
     return chart;
   };
-  
+
   chart.labelSunbeamLayout = function(_) {
     if (!arguments.length) return labelSunbeamLayout;
     labelSunbeamLayout = _;
@@ -9502,7 +9502,7 @@ nv.models.pie = function() {
     donutLabelsOutside = _;
     return chart;
   };
-  
+
   chart.pieLabelsOutside = function(_) {
     if (!arguments.length) return pieLabelsOutside;
     pieLabelsOutside = _;
@@ -9514,7 +9514,7 @@ nv.models.pie = function() {
     donut = _;
     return chart;
   };
-  
+
   chart.donutRatio = function(_) {
     if (!arguments.length) return donutRatio;
     donutRatio = _;
@@ -10032,9 +10032,9 @@ nv.models.scatter = function() {
                 var pX = getX(point,pointIndex) + Math.random() * 1e-7;
                 var pY = getY(point,pointIndex) + Math.random() * 1e-7;
 
-                return [x(pX), 
-                        y(pY), 
-                        groupIndex, 
+                return [x(pX),
+                        y(pY),
+                        groupIndex,
                         pointIndex, point]; //temp hack to add noise untill I think of a better way so there are no duplicates
               })
               .filter(function(pointArray, pointIndex) {
@@ -10102,10 +10102,10 @@ nv.models.scatter = function() {
           pointPaths.exit().remove();
           pointPaths
               .attr('d', function(d) {
-                if (d.data.length === 0) 
+                if (d.data.length === 0)
                     return 'M 0 0'
-                else 
-                    return 'M' + d.data.join('L') + 'Z'; 
+                else
+                    return 'M' + d.data.join('L') + 'Z';
               });
 
           pointPaths
@@ -10166,7 +10166,7 @@ nv.models.scatter = function() {
             .selectAll('.nv-point')
               //.data(dataWithPoints)
               //.style('pointer-events', 'auto') // recativate events, disabled by css
-              .on('click', function(d,i) { 
+              .on('click', function(d,i) {
                 //nv.log('test', d, i);
                 if (needsUpdate || !data[d.series]) return 0; //check if this is a dummy point
                 var series = data[d.series],
@@ -10921,7 +10921,7 @@ nv.models.scatterChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -11125,7 +11125,7 @@ nv.models.scatterChart = function() {
     defaultState = _;
     return chart;
   };
-  
+
   chart.noData = function(_) {
     if (!arguments.length) return noData;
     noData = _;
@@ -11168,7 +11168,7 @@ nv.models.scatterPlusLineChart = function() {
     , tooltips     = true
     , tooltipX     = function(key, x, y) { return '<strong>' + x + '</strong>' }
     , tooltipY     = function(key, x, y) { return '<strong>' + y + '</strong>' }
-    , tooltip      = function(key, x, y, date) { return '<h3>' + key + '</h3>' 
+    , tooltip      = function(key, x, y, date) { return '<h3>' + key + '</h3>'
                                                       + '<p>' + date + '</p>' }
     //, tooltip      = null
     , state = {}
@@ -11390,7 +11390,7 @@ nv.models.scatterPlusLineChart = function() {
           .attr('y2', function(d,i) { return y(x.domain()[1] * d.slope + d.intercept) })
           .style('stroke', function(d,i,j) { return color(d,j) })
           .style('stroke-opacity', function(d,i) {
-            return (d.disabled || typeof d.slope === 'undefined' || typeof d.intercept === 'undefined') ? 0 : 1 
+            return (d.disabled || typeof d.slope === 'undefined' || typeof d.intercept === 'undefined') ? 0 : 1
           });
 
 
@@ -11543,7 +11543,7 @@ nv.models.scatterPlusLineChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -11962,7 +11962,7 @@ nv.models.sparklinePlus = function() {
           availableHeight = (height || parseInt(container.style('height')) || 400)
                              - margin.top - margin.bottom;
 
-      
+
 
       chart.update = function() { chart(selection) };
       chart.container = this;
@@ -12037,7 +12037,7 @@ nv.models.sparklinePlus = function() {
 
 
       var valueWrap = g.select('.nv-valueWrap');
-      
+
       var value = valueWrap.selectAll('.nv-currentValue')
           .data([currentValue]);
 
@@ -12547,9 +12547,9 @@ nv.models.stackedArea = function() {
 	    if (!arguments.length) return interpolate;
 	    interpolate = _;
 	    return interpolate;
-  
+
   };
-  
+
   //============================================================
 
 
@@ -12628,6 +12628,7 @@ nv.models.stackedAreaChart = function() {
     selection.each(function(data) {
       var container = d3.select(this),
           that = this;
+      var noDataText;
 
       var availableWidth = (width  || parseInt(container.style('width')) || 960)
                              - margin.left - margin.right,
@@ -12655,7 +12656,7 @@ nv.models.stackedAreaChart = function() {
       // Display No Data message if there's nothing to show.
 
       if (!data || !data.length || !data.filter(function(d) { return d.values.length }).length) {
-        var noDataText = container.selectAll('.nv-noData').data([noData]);
+        noDataText = container.selectAll('.nv-noData').data([noData]);
 
         noDataText.enter().append('text')
           .attr('class', 'nvd3 nv-noData')
@@ -12849,7 +12850,7 @@ nv.models.stackedAreaChart = function() {
           data.forEach(function(d) {
              d.disabled = true;
           });
-          d.disabled = false;  
+          d.disabled = false;
 
           state.disabled = data.map(function(d) { return !!d.disabled });
           dispatch.stateChange(state);
@@ -12905,7 +12906,15 @@ nv.models.stackedAreaChart = function() {
 
         chart.update();
       });
-
+      container = null;  // testing jack
+      wrap = null;
+      gEnter = null;
+      g = null;
+      noDataText = null;
+      // wrap
+      // gEnter
+      // g
+      // noDataText
     });
 
 
