@@ -12906,15 +12906,12 @@ nv.models.stackedAreaChart = function() {
 
         chart.update();
       });
-      container = null;  // testing jack
+      // Jack: possibly removes some memory leaks. Can't hurt.
+      container = null;
       wrap = null;
       gEnter = null;
       g = null;
       noDataText = null;
-      // wrap
-      // gEnter
-      // g
-      // noDataText
     });
 
 
