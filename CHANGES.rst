@@ -8,6 +8,8 @@ Changelog of nxt-graph
 - Remove objects from dom to prevent memory leaks, as well as not adding circles
  (patched included nvd3).
 
+- Updated crosssection as well as timeseries graphs.
+
 
 0.12 (2014-10-07)
 -----------------
