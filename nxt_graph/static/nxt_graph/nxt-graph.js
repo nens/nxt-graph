@@ -105,10 +105,10 @@ app
                         var yMax = d3.max(formatted[0].values, function(d) { return d[1]; });
                         var yDelta = yMax - yMin;
                         if (yDelta < 0.01) {
-                            console.log("Adjust y axis, because yDelta =", yDelta, "< 0.005");
+                            console.log("Adjust y axis, because yDelta =", yDelta, "< 0.01");
                             chart.yDomain([yMin-yDelta*5, yMax+yDelta*5]);
                         } else if (yDelta < 0.1) {
-                            console.log("Adjust y axis, because yDelta =", yDelta, "< 0.01");
+                            console.log("Adjust y axis, because yDelta =", yDelta, "< 0.1");
                             chart.yDomain([yMin-yDelta*2, yMax+yDelta*2]);
                         } else {
                             chart.yDomain([yMin, yMax]);
