@@ -100,20 +100,16 @@ app
                              .tickFormat(d3.format(',.2f'));
 
                         // Adjust y domain so that small changes are not magnified.
-                        // TODO: maybe just always adjust with yDelta??? (alternativelyk, more conditions)
                         var yMin = d3.min(formatted[0].values, function(d) { return d[1]; });
                         var yMax = d3.max(formatted[0].values, function(d) { return d[1]; });
                         var yDelta = yMax - yMin;
                         if (yDelta < 0.01) {
                             console.log("Adjust y axis, because yDelta =", yDelta, "< 0.01");
                             chart.yDomain([yMin-yDelta*5, yMax+yDelta*5]);
-                        } else if (yDelta < 0.1) {
-                            console.log("Adjust y axis, because yDelta =", yDelta, "< 0.1");
-                            chart.yDomain([yMin-yDelta*2, yMax+yDelta*2]);
                         } else {
-                            chart.yDomain([yMin, yMax]);
+                            console.log("Adjust y axis, with yDelta =", yDelta);
+                            chart.yDomain([yMin-yDelta*0.05/yDelta, yMax+yDelta*0.05/yDelta]);
                         }
-
                         chart.showLegend(false);
 
                         //console.log('element', $(element).attr('id'), element);
