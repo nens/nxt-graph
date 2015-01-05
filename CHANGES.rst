@@ -5,7 +5,7 @@ Changelog of nxt-graph
 0.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Adjusted the time series so that small changes are not magnified.
 
 
 0.14 (2014-11-27)
