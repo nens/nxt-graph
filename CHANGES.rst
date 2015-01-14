@@ -5,6 +5,8 @@ Changelog of nxt-graph
 0.15 (unreleased)
 -----------------
 
+- Update bootstrap.py.
+
 - Adjusted the time series so that small changes are not magnified.
 
 
